@@ -14,7 +14,4 @@
 # LexisMapMarker
 
 
-
-![alt text](https://logodix.com/logo/539650.png "Logo Title Text 1")
-
 [logo]: https://logodix.com/logo/539650.png "Logo Title Text 2"
