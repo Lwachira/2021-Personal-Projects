@@ -13,6 +13,6 @@
 
 # LexisMapMarker
 
-                                ![alt text][logo]
+![alt text][logo]
 
-                                [logo]: https://logodix.com/logo/539650.png "You are Here"
+<div align="center"> [logo]: https://logodix.com/logo/539650.png "You are Here" </div>
