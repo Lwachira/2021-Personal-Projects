@@ -15,3 +15,5 @@
 
 
 [logo]: https://logodix.com/logo/539650.png "Logo Title Text 2"
+
+[logo]
