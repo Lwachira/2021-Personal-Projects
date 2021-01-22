@@ -7,7 +7,7 @@
 ### Table of Contents
 
 - [Lead Generator](#lead-generator)
-- [LexisMapMarker](#lexismapmarker)
+- [MapMarker](#mapmarker)
 - [Future Work](#future-work)
 
 # Lead Generator
@@ -22,7 +22,9 @@ The application enables a business to add ISBN and get sales data on that ISBN, 
 Additional it enables a business to use pre defined exclusion rules or create custom  exclusion rules.
 Lastly it has an export to Excel or CSV of the final results.
 
-# LexisMapMarker
+# MapMarker
+
+I built the Map Maker to refersh my knowledge of React, for the front end I'm using Create React App (CRA) with some light asp web api. It makes heavy use of the Google Maps + Geocode API. The aim was to insert a list of address and show all the surronding areas from an origin point.
 
 # Future Work 
 
