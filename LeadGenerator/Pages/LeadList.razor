@@ -1,0 +1,118 @@
+﻿@page "/leadlist"
+
+@using LeadAutomator.Data
+@using GridBlazor
+@using GridBlazor.Pages
+@using GridShared
+@using GridShared.Utility
+@using Microsoft.Extensions.Primitives
+
+@inject LeadAutomatorService LeadAutoService
+@inject Services.AppData AppData
+@inject IJSRuntime JSRuntime
+
+<style>
+    table.grid-table .grid-header > .grid-header-group > .grid-header-title > button {
+        color: red;
+    }
+
+    .page-item.active .page-link {
+        z-index: 3;
+        color: white;
+        background-color: red;
+        border-color: red;
+    }
+
+    .page-link {
+        color: red;
+    }
+
+    .grid-itemscount-label {
+        color: red;
+    }
+
+    .grid-itemscount-caption {
+        color: red;
+    }
+</style>
+
+
+
+
+<h1>Lead List</h1>
+<p>Here you can view the lead list</p>
+
+
+@if (_task.IsCompleted)
+{
+    <button @onclick="DownloadExcel" type="button" class="btn btn-danger btn-lg">Export As Excel File</button>
+    <button @onclick="DownloadCSV" type="button" class="btn btn-dark btn-lg">Export As CSV File</button>
+
+
+    <GridComponent T="LeadGeneration" Grid="@_grid" TableWrapCssClass="table-responsive" TableCssClass="table" GridCrudHeaderCssClass="btn btn-primary"></GridComponent>
+
+}
+else
+{
+    <p><em>Loading...</em></p>
+}
+
+@code {
+
+    private CGrid<LeadGeneration> _grid;
+    private Task _task;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Action<IGridColumnCollection<LeadGeneration>> columns = c =>
+        {
+            c.Add(o => o.Source).SetWidth(10);
+            c.Add(o => o.PeopleSoftID).SetWidth(10);
+            c.Add(o => o.CustomerName).SetWidth(10);
+            c.Add(o => o.ContactID).SetWidth(10);
+            c.Add(o => o.ContactFlag).SetWidth(10);
+            c.Add(o => o.Salutation).SetWidth(10);
+            c.Add(o => o.ContactName).SetWidth(10);
+            c.Add(o => o.ContactEmail).SetWidth(10);
+            c.Add(o => o.TypeofBusiness).SetWidth(10);
+            c.Add(o => o.CustomerChannel).SetWidth(10);
+            c.Add(o => o.ContactPhoneNumber).SetWidth(10);
+        };
+
+        var query = new QueryDictionary<StringValues>();
+        query.Add("grid-page", "1");
+
+        var client = new GridClient<LeadGeneration>(q => LeadAutoService.GetOrdersGridRows(columns, q, AppData.Leads), query, false, "ordersGrid", columns)
+            .Sortable(true)
+            .SetStriped(true)
+              .WithGridItemsCount();
+
+        _grid = client.Grid;
+
+        // Set new items to grid
+        _task = client.UpdateGrid();
+        await _task;
+    }
+
+    async Task DownloadExcel()
+    {
+        byte[] file = LeadAutoService.GenerateExcel(AppData.Leads);
+        string fileName = "Leads.xlsx";
+        string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+        await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", fileName, contentType, Convert.ToBase64String(file));
+
+    }
+
+    async Task DownloadCSV()
+    {
+        byte[] file = LeadAutoService.GenerateCSV(AppData.Leads);
+        string fileName = "Leads.csv";
+        string contentType = "text/plain";
+
+
+        await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", fileName, contentType, Convert.ToBase64String(file));
+    }
+
+
+}

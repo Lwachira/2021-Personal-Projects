@@ -1,0 +1,103 @@
+﻿@page  "/loadisbn"
+
+@using LeadAutomator.Data
+@using BlazorPro.Spinkit
+
+@inject LeadAutomatorService LeadAutoService
+@inject Services.AppData AppData
+
+@inject IJSRuntime JsRuntime;
+@inject NavigationManager NavigationManager
+
+
+<h1>Load ISBN</h1>
+<p>This component builds the lead report using ISBN</p>
+
+
+
+<SpinLoader IsLoading="IsLoading">
+    <LoadingTemplate>
+
+        <Wander Center="true"></Wander>
+
+    </LoadingTemplate>
+
+    <ContentTemplate>
+
+
+        <EditForm Model="@exampleModel" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+
+            <div class="form-group">
+                <label for="isbnTextarea">Enter ISBN Per Line</label>
+                <InputTextArea class="form-control" id="isbnTextarea" rows="5" aria-label="Enter ISBN Per Line" @bind-Value="exampleModel.ISBN" />
+            </div>
+
+            <div class="input-group">
+                <button type="submit" id="btnSubmitISBN" class="btn btn-dark btn-lg">Submit ISBN</button>
+            </div>
+
+        </EditForm>
+
+
+
+    </ContentTemplate>
+
+</SpinLoader>
+
+
+
+@code {
+
+    private ISBNModel exampleModel = new ISBNModel();
+
+    bool IsLoading = false;
+
+    // [Parameter] public RenderFragment ChildContent { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsLoading = true;
+        }
+        else
+        {
+            HandleValidSubmit();
+
+        }
+    }
+
+
+    private void HandleValidSubmit()
+    {
+
+
+
+        string textAreaString = exampleModel.ISBN;
+
+        var list = textAreaString.Split(new string[] { "\r\n", "\r", "\n", "\n\r" }, StringSplitOptions.RemoveEmptyEntries);
+
+        if (list.Length > 0) //
+        {
+            AppData.ISBNList = list;
+
+            AppData.ISBNInformation = LeadAutoService.GetISBNInformationFromDatabase(AppData.ISBNList);
+            AppData.Leads = LeadAutoService.GetLeadGenerationFromDatabase(AppData.ISBNList);
+
+
+            if (AppData.ISBNList.Count() > 0)
+            {
+
+                NavigationManager.NavigateTo("/standardexclusionrule");
+
+            }
+
+        }
+    }
+
+}
+

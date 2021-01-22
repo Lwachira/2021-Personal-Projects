@@ -1,0 +1,57 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Leads Generator</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="nav flex-column">
+        <a class="nav-item">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                Home
+            </NavLink>
+        </a>
+
+        <a class="nav-item">
+            <NavLink class="nav-link" href="loadisbn">
+                Load ISBN
+            </NavLink>
+        </a>
+        <a class="nav-item">
+            <NavLink class="nav-link" href="standardexclusionrule">
+                Add Standard Rules
+            </NavLink>
+        </a>
+
+        <a class="nav-item">
+            <NavLink class="nav-link" href="customexclusionrule">
+                Add Custom Rules
+            </NavLink>
+        </a>
+
+        <a class="nav-item">
+            <NavLink class="nav-link" href="summarylist">
+                View Summary List
+            </NavLink>
+        </a>
+
+        <a class="nav-item">
+            <NavLink class="nav-link" href="leadlist">
+                View Lead List
+            </NavLink>
+        </a>
+    </nav>
+
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

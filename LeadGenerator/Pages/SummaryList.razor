@@ -1,0 +1,91 @@
+﻿@page "/summarylist"
+
+@using LeadAutomator.Data
+
+@inject LeadAutomatorService LeadAutoService
+@inject Services.AppData AppData
+
+
+<h1>Summary List</h1>
+<p>Here you can view the summary list</p>
+
+
+@if (AppData.ISBNInformation == null)
+{
+    <h1>You need to load the ISBN Data</h1>
+}
+else
+{
+
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <td scope="col">ISBN</td>
+                <td scope="col">ProductDescription</td>
+                <td scope="col">ProductLevel4Description</td>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in AppData.ISBNInformation.GroupBy(i => new { i.ISBN, i.ProductDescription, i.ProductLevel4Description }).Select(g => g.First()).ToList())
+            {
+                <tr>
+                    <td>@item.ISBN</td>
+                    <td>@item.ProductDescription</td>
+                    <td>@item.ProductLevel4Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="row mx-md-n5"></div>
+
+    <table class="table table-borderless table-dark">
+        <thead>
+            <tr>
+                <td>ProductLevel4Description</td>
+                <td>MinPeriod</td>
+                <td>MaxPeriod</td>
+                <td>BilledAmount</td>
+                <td>Quantity</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in AppData.ISBNInformation.GroupBy(i => new { i.Quantity }).Select(g => g.First()).ToList())
+            {
+                <tr>
+                    <td>@item.ProductLevel4Description</td>
+                    <td>@item.MinPeriod</td>
+                    <td>@item.MaxPeriod</td>
+                    <td>@item.BilledAmount</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row mx-md-n5"></div>
+
+    <table class="table table-borderless">
+        <thead class="thead-dark">
+            <tr>
+                <td>ALL_CUSTOMERS_SALES</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in AppData.ISBNInformation.GroupBy(i => i.ALL_CUSTOMERS_SALES).Select(g => g.First()).ToList())
+            {
+                <tr>
+                    <td>@item.ALL_CUSTOMERS_SALES</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+
+
+
+
+}
