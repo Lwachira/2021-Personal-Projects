@@ -17,7 +17,10 @@ I built LeadGenerator as a personal project to learn more about [Asp Blazor](htt
 
 ![An Image of Lead Gen UI](LeadGen.png)
 
-The application enables a a business to add ISBN and get sales data on that ISBN, provided they update the SQL to match their needs.
+The application enables a business to add ISBN and get sales data on that ISBN, provided they update the SQL to match their needs.
+
+Additional it enables a business to use pre defined exclusion rules or create custom  exclusion rules.
+Lastly it has an export to Excel or CSV of the final results.
 
 # LexisMapMarker
 
