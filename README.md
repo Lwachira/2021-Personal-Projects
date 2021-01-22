@@ -12,6 +12,13 @@
 
 # LeadGenerator
 
+I built LeadGenerator as a personal project to learn more about [Asp Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor), Blazor is a framework for building interactive client-side web UI with .NET. 
+
+
+![](LeadGen.png)
+
+The application enables a a business to add ISBN and get sales data on that ISBN, provided they update the SQL to match their needs.
+
 # LexisMapMarker
 
 # Future Work 
